@@ -1,0 +1,46 @@
+/* ---------- Bible ---------- */
+.bible { height: 100%; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 10px; padding: 10px; }
+.bible-loading { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--text-3); }
+.bible-manage { grid-row: 1 / -1; overflow: auto; }
+.bible-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 8px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+.bible-ref { display: flex; gap: 6px; flex: 1 1 340px; min-width: 260px; }
+.bible-search { flex: 1; }
+.bible-search input { font-size: 14px; }
+.bible-select { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-3); white-space: nowrap; }
+.bible-select select.input { width: auto; min-width: 90px; max-width: 220px; height: 30px; padding: 0 8px; cursor: pointer; }
+.bible-manage-btn { margin-left: auto; }
+.bible-bar-note { flex-basis: 100%; margin: 0; font-size: 12px; }
+
+.bible-main { display: grid; grid-template-columns: 190px minmax(0, 1fr) minmax(300px, 380px); gap: 10px; min-height: 0; }
+@media (max-width: 1280px) { .bible-main { grid-template-columns: 160px minmax(0, 1fr) 300px; } }
+.bible-books { padding: 4px 6px 10px; }
+.bible-group { padding: 10px 8px 4px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+.bible-book { display: block; width: 100%; padding: 4px 8px; border: 0; border-radius: 4px; background: transparent; color: var(--text-2); font-size: 13px; text-align: left; cursor: pointer; }
+.bible-book:hover { background: var(--hover); color: var(--text); }
+.bible-book.is-active { background: var(--surface-3); color: var(--accent-hi); font-weight: 600; }
+
+.bible-text-panel .panel-body { display: flex; flex-direction: column; overflow: hidden; }
+.bible-chapters { flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 4px; max-height: 124px; overflow: auto; padding: 10px; border-bottom: 1px solid var(--border); }
+.bible-ch { min-width: 34px; height: 26px; padding: 0 6px; border: 1px solid var(--border); border-radius: 4px; background: transparent; color: var(--text-2); font-family: var(--mono); font-size: 12px; cursor: pointer; }
+.bible-ch:hover { border-color: var(--border-strong); color: var(--text); }
+.bible-ch.is-active { border-color: var(--accent); background: var(--accent); color: #fff; }
+.bible-verses { position: relative; flex: 1; min-height: 0; overflow: auto; padding: 6px; }
+.bible-verse { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 8px; width: 100%; padding: 6px 8px; border: 0; border-radius: 5px; background: transparent; color: var(--text); font-size: 14px; line-height: 1.5; text-align: left; cursor: pointer; text-wrap: pretty; }
+.bible-verse.has-2 { grid-template-columns: 30px minmax(0, 1fr) minmax(0, 1fr); }
+.bible-verse:hover { background: var(--hover); }
+.bible-verse.is-selected { background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--accent); }
+.bible-vn { padding-top: 2px; font-family: var(--mono); font-size: 12px; color: var(--text-3); }
+.bible-verse.is-selected .bible-vn { color: var(--accent-hi); }
+.bible-second { color: var(--text-2); }
+
+.bible-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.bible-msg { display: flex; align-items: flex-start; gap: 6px; padding: 8px 12px 0; font-size: 12px; }
+.bible-msg > span { flex: 1; }
+.bible-slides { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+
+.bible-rows { display: flex; flex-direction: column; gap: 8px; }
+.bible-row { display: flex; align-items: center; gap: 10px; min-height: 36px; }
+.bible-abbrev { min-width: 52px; font-family: var(--mono); font-weight: 600; color: var(--accent-hi); }
+.bible-abbrev-input { width: 80px; flex-shrink: 0; font-family: var(--mono); font-weight: 600; }
+.bible-row-name { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.bible-row .notice { margin: 0; }
