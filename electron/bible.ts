@@ -5,7 +5,7 @@ import { app, dialog, net, type BrowserWindow, type OpenDialogOptions } from 'el
 import { randomUUID } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import * as path from 'node:path';
-import { BIBLE_BOOKS, BIBLE_DOWNLOADS, BIBLE_ID_PATTERN, findBook, type BibleInfo } from '../shared/bible';
+import { BIBLE_BOOKS, BIBLE_DOWNLOADS, BIBLE_ID_PATTERN, TWI_BOOK_NAMES, findBook, type BibleInfo } from '../shared/bible';
 
 const MAX_FILE_BYTES = 80 * 1024 * 1024;
 const DOWNLOAD_TIMEOUT_MS = 3 * 60 * 1000;
@@ -272,6 +272,22 @@ function collectXml(xml: string, out: Collected): { name: string | null } {
     });
     return { name: head ? attr(head[1], 'biblename') : null };
   }
+  // Beblia / bible.com exports: <bible translation="…"><testament><book number><chapter number><verse number>
+  if (/<bible\b[^>]*>/i.test(xml) && /<book\b[^>]*\bnumber=/i.test(xml)) {
+    const head = /<bible\b([^>]*)>/i.exec(xml);
+    const translation = head ? attr(head[1], 'translation') : null;
+    const twi = /twi|akan|asante|akuapem/i.test(translation ?? '');
+    const books = [...xml.matchAll(/<book\b([^>]*)>([\s\S]*?)<\/book>/gi)];
+    books.forEach((bm, position) => {
+      const book = resolveBook(attr(bm[1], 'number') ?? attr(bm[1], 'name'), position, books.length);
+      const bname = attr(bm[1], 'name') ?? (twi && book ? TWI_BOOK_NAMES[book - 1] : null);
+      for (const cm of bm[2].matchAll(/<chapter\b([^>]*)>([\s\S]*?)<\/chapter>/gi)) {
+        const c = num(attr(cm[1], 'number'));
+        for (const vm of cm[2].matchAll(/<verse\b([^>]*)>([\s\S]*?)<\/verse>/gi)) put(out, book, bname, c, num(attr(vm[1], 'number')), vm[2]);
+      }
+    });
+    if (out.size > 0) return { name: translation };
+  }
   // OSIS: <verse osisID="Gen.1.1">…</verse> or milestones <verse sID="Gen.1.1"/>…<verse eID="Gen.1.1"/>
   const osis = (id: string, text: string) => {
     const m = /^([1-3]?[A-Za-z]+)\.(\d+)\.(\d+)/.exec(id.split(/\s+/)[0]);
@@ -327,7 +343,7 @@ function convert(text: string): { books: StoredBible['books']; verses: number; n
   }
   const result = finish(out);
   if (result.verses === 0) {
-    throw new Error('No verses were found. KVLOG reads Zefania XML, OSIS XML and common JSON Bible files.');
+    throw new Error('No verses were found. KVLOG reads Zefania XML, OSIS XML, Beblia XML and common JSON Bible files.');
   }
   return { ...result, name };
 }

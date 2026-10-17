@@ -1,7 +1,7 @@
 {
   "name": "kvlog",
   "productName": "KVLOG",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "KVLOG - live production and worship presentation workspace",
   "author": "Joshua Asirifi Kwame, Cyril (CACI, Konongo media head)",
@@ -42,7 +42,7 @@
     "vitest": "^2.1.8",
     "@playwright/test": "^1.49.1"
   },
-  "homepage": "https://github.com/YOUR-GITHUB-NAME/kvlog",
+  "homepage": "https://github.com/asirifijoshua27-del/kvlog",
   "build": {
     "appId": "com.kvlog.app",
     "productName": "KVLOG",
@@ -55,7 +55,8 @@
       "dist/**/*",
       "dist-electron/**/*",
       "!dist-electron/**/*.map",
-      "package.json"
+      "package.json",
+      "build/icon.ico"
     ],
     "win": {
       "target": [
@@ -66,7 +67,7 @@
           ]
         }
       ],
-      "icon": "build/icon.png",
+      "icon": "build/icon.ico",
       "artifactName": "KVLOG-Setup-${version}.${ext}"
     },
     "nsis": {

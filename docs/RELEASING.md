@@ -3,7 +3,7 @@
 ## One-time setup
 
 1. Create a GitHub repository named `kvlog` and push this folder to it.
-2. In `package.json`, replace `YOUR-GITHUB-NAME` (two places: `homepage` and `build.publish`) with your GitHub user or organisation name.
+2. `package.json` already points to `asirifijoshua27-del/kvlog` (in `homepage` and `build.publish`). Change both if the repository moves.
 3. Keep the repository **public**. Installed copies download updates from its Releases page; a private repository would need a token on every church's PC.
 
 ## Making a release

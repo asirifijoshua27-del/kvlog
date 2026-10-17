@@ -89,8 +89,23 @@ export function normalizeBookName(text: string): string {
     .replace(/^iii\s+/, '3')
     .replace(/^ii\s+/, '2')
     .replace(/^i\s+(?=[a-z])/, '1')
+    .replace(/ɔ/g, 'o')
+    .replace(/ɛ/g, 'e')
     .replace(/[\s.]+/g, '');
 }
+
+/** Asante Twi book names, used for Twi Bibles whose files carry only book numbers. */
+export const TWI_BOOK_NAMES: string[] = [
+  'Genesis', 'Exodus', 'Leviticus', 'Numeri', 'Deuteronomium', 'Yosua', 'Atemmufoɔ', 'Rut',
+  '1 Samuel', '2 Samuel', '1 Ahemfoɔ', '2 Ahemfoɔ', '1 Berɛsosɛm', '2 Berɛsosɛm', 'Esra', 'Nehemia',
+  'Ester', 'Hiob', 'Nnwom', 'Mmebusɛm', 'Ɔsɛnkafoɔ', 'Nnwom mu Dwom', 'Yesaia', 'Yeremia',
+  'Kwadwom', 'Hesekiel', 'Daniel', 'Hosea', 'Yoel', 'Amos', 'Obadia', 'Yona', 'Mika', 'Nahum',
+  'Habakuk', 'Sefania', 'Hagai', 'Sakaria', 'Malaki',
+  'Mateo', 'Marko', 'Luka', 'Yohane', 'Asomafoɔ Nnwuma', 'Romafoɔ', '1 Korintofoɔ', '2 Korintofoɔ',
+  'Galatifoɔ', 'Efesofoɔ', 'Filipifoɔ', 'Kolosefoɔ', '1 Tesalonikafoɔ', '2 Tesalonikafoɔ',
+  '1 Timoteo', '2 Timoteo', 'Tito', 'Filemon', 'Hebrifoɔ', 'Yakobo', '1 Petro', '2 Petro',
+  '1 Yohane', '2 Yohane', '3 Yohane', 'Yuda', 'Adiyisɛm'
+];
 
 const EXACT = new Map<string, number>();
 for (const book of BIBLE_BOOKS) {
