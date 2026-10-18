@@ -79,4 +79,10 @@
 .library-import .btn { flex: 1; justify-content: center; }
 .transpose-val { min-width: 64px; text-align: center; font-weight: 600; }
 .textarea-content2 { min-height: 160px; }
+.charbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.charbar-set { width: auto; height: 28px; font-size: 12px; }
+.charbar-keys { display: flex; flex-wrap: wrap; gap: 3px; }
+.charbar-key { min-width: 28px; height: 28px; padding: 0 6px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface-2); color: var(--text); font: inherit; font-size: 14px; cursor: pointer; }
+.charbar-key:hover { border-color: var(--accent); }
+.charbar-hint { font-size: 11px; color: var(--text-3); }
 .input.is-invalid { border-color: var(--live); }

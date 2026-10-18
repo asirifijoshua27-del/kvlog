@@ -1,4 +1,5 @@
 import { app, BrowserWindow, ipcMain, screen, session, shell, type IpcMainInvokeEvent, type WebPreferences } from 'electron';
+import * as fs from 'node:fs';
 import * as path from 'node:path';
 import type { AppInfo, DisplayInfo } from '../shared/bridge-types';
 import type { LoadResult, SaveResult, PresentationImportResult } from '../shared/data-types';
@@ -452,6 +453,7 @@ function createMainWindow(): void {
     minWidth: 1200,
     minHeight: 720,
     title: 'KVLOG',
+    icon: path.join(__dirname, '..', '..', 'build', 'icon.ico'),
     backgroundColor: '#0b0d11',
     show: false,
     autoHideMenuBar: true,
@@ -489,6 +491,25 @@ app.on('web-contents-created', (_event, contents) => {
     if (!isAllowedRendererUrl(url)) event.preventDefault();
   });
   contents.on('will-attach-webview', (event) => event.preventDefault());
+});
+
+// Never let one unexpected error close KVLOG during a service: log it so a report can include it.
+function logCrash(kind: string, detail: unknown): void {
+  try {
+    const text = detail instanceof Error ? detail.stack ?? detail.message : JSON.stringify(detail);
+    fs.appendFileSync(path.join(app.getPath('userData'), 'kvlog-errors.log'), `${new Date().toISOString()} ${kind}: ${text}\n`);
+  } catch {
+    /* logging must never throw */
+  }
+}
+process.on('uncaughtException', (error) => logCrash('uncaughtException', error));
+process.on('unhandledRejection', (reason) => logCrash('unhandledRejection', reason));
+app.on('child-process-gone', (_event, details) => logCrash('child-process-gone', details));
+app.on('render-process-gone', (_event, contents, details) => {
+  logCrash('render-process-gone', details);
+  if (details.reason !== 'clean-exit' && mainWindow && !mainWindow.isDestroyed() && contents === mainWindow.webContents) {
+    loadRenderer(mainWindow);
+  }
 });
 
 registerMediaScheme();

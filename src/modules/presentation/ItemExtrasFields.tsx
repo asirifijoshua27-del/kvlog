@@ -3,6 +3,7 @@ import { Minus, Plus } from 'lucide-react';
 import { DEFAULT_EXTRAS, extrasOf, formatDuration, parseDuration, type Bilingual, type ItemExtras } from '../../../shared/extras';
 import { transposeKey } from '../../../shared/chords';
 import type { EditableItemFields, ServiceItem } from '../../types';
+import { LyricsTextarea } from '../../components/LyricsTextarea';
 
 interface Props {
   item: ServiceItem;
@@ -92,9 +93,9 @@ export function ItemExtrasFields({ item, onChange, obsScenes, defaultScene, obsA
           </div>
           {(extra.bilingual !== 'off' || extra.content2.trim() !== '') && (
             <>
-              <textarea className="textarea textarea-content2" rows={8} value={extra.content2}
+              <LyricsTextarea className="textarea textarea-content2" rows={8} value={extra.content2} aria-label="Second language lyrics"
                 placeholder={'[Verse 1]\nFirst line in the second language\nSecond line\n\n[Chorus]\n…'}
-                onChange={(e) => set({ content2: e.target.value })} />
+                onValueChange={(content2) => set({ content2 })} />
               <p className="help">Use the same section labels as the main lyrics ([Verse 1], [Chorus]…), with the lines in the same order. Each line is shown with the matching line of the main lyrics.</p>
             </>
           )}

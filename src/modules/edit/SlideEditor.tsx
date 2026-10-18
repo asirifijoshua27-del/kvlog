@@ -1,3 +1,4 @@
+import { matchesQuery } from '../../services/search';
 import { useCallback, useEffect, useMemo, useRef, useState, type Dispatch } from 'react';
 import {
   ArrowDown, ArrowUp, ClipboardPaste, Copy, CopyPlus, Image as ImageIcon, LayoutTemplate, ListChecks, Plus,
@@ -438,7 +439,7 @@ export function SlideEditor({ state, dispatch }: SlideEditorProps) {
 
   const q = query.trim().toLowerCase();
   const matches = (i: ServiceItem) =>
-    (kindFilter === 'all' || i.kind === kindFilter) && (!q || `${i.title} ${i.subtitle} ${i.content}`.toLowerCase().includes(q));
+    (kindFilter === 'all' || i.kind === kindFilter) && (!q || matchesQuery(`${i.title} ${i.subtitle} ${i.content}`, q));
   const sorted = (list: ServiceItem[]) =>
     sort === 'order'
       ? list

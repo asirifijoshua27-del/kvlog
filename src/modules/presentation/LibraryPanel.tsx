@@ -1,3 +1,4 @@
+import { matchesQuery } from '../../services/search';
 import { useMemo, useState } from 'react';
 import { FileDown, FilePlus, ListOrdered, Plus, Search } from 'lucide-react';
 import { EmptyState, Panel } from '../../components/Panel';
@@ -27,7 +28,7 @@ export function LibraryPanel(props: LibraryPanelProps) {
   const libraryResults = useMemo(() => {
     const q = query.trim().toLowerCase();
     return [...library]
-      .filter((item) => !q || `${item.title}\n${item.subtitle}\n${item.content}`.toLowerCase().includes(q))
+      .filter((item) => !q || matchesQuery(`${item.title}\n${item.subtitle}\n${item.content}`, q))
       .sort((a, b) => a.title.localeCompare(b.title));
   }, [library, query]);
 

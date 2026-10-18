@@ -1,3 +1,4 @@
+import { matchesQuery } from '../../services/search';
 import { useMemo, useState } from 'react';
 import { Check, Library, Plus, Search } from 'lucide-react';
 import { EmptyState, Panel } from '../../components/Panel';
@@ -23,7 +24,7 @@ export function ItemPicker({ library, plan, onAdd, onCreate, onEdit }: ItemPicke
     const q = query.trim().toLowerCase();
     return library
       .filter((item) => filter === 'all' || item.kind === filter)
-      .filter((item) => !q || `${item.title}\n${item.subtitle}\n${item.content}`.toLowerCase().includes(q))
+      .filter((item) => !q || matchesQuery(`${item.title}\n${item.subtitle}\n${item.content}`, q))
       .sort((a, b) => a.title.localeCompare(b.title));
   }, [library, query, filter]);
 

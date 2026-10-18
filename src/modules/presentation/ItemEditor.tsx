@@ -10,6 +10,7 @@ import { mediaUrl } from '../../../shared/media';
 import type { EditableItemFields, MediaItem, ServiceItem } from '../../types';
 import type { Transition } from '../../../shared/data-types';
 import { ItemExtrasFields } from './ItemExtrasFields';
+import { LyricsTextarea } from '../../components/LyricsTextarea';
 
 interface ItemEditorProps {
   item: ServiceItem;
@@ -310,18 +311,19 @@ export function ItemEditor({ item, isLive, autoFocusTitle, onChange, onDelete, m
               {transitionField}
             </div>
 
-            <label className="field field-grow">
+            <div className="field field-grow">
               <span className="field-label">
                 {meta.contentLabel}
                 <span className="field-hint">{summary}</span>
               </span>
-              <textarea
+              <LyricsTextarea
                 className="textarea textarea-content"
+                aria-label={meta.contentLabel}
                 value={item.content}
                 placeholder={meta.placeholder}
-                onChange={(e) => onChange({ content: e.target.value })}
+                onValueChange={(content) => onChange({ content })}
               />
-            </label>
+            </div>
             <p className="help">{meta.help}{item.kind === 'song' && ' Chords can be typed in the lyrics, e.g. [G]Amazing [C]grace. Only the stage display shows them.'}</p>
           </>
         )}
